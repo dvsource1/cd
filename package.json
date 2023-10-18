@@ -1,11 +1,11 @@
 {
-  "name": "chrome-extension-boilerplate-react-vite",
+  "name": "cd",
   "version": "0.0.1",
-  "description": "chrome extension boilerplate",
+  "description": "dv/cd",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite.git"
+    "url": "git@github.com:dvsource1/cd.git"
   },
   "scripts": {
     "tw-build": "npx tailwindcss -i src/style/app.css -o src/style/tailwind.css -w",
