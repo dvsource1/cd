@@ -21,7 +21,11 @@ const Card: FC<Props> = ({ className, children }) => {
         <div className="text-center text-base">Actions</div>
         <div className="flex items-center gap-1">
           {[1, 2].map(i => (
-            <SimpleTooltipButton key={i} tooltip="Hi tooltip">
+            <SimpleTooltipButton
+              key={i}
+              variant="none"
+              size="none"
+              tooltip="Hi tooltip">
               <ShieldQuestion size={20} />
             </SimpleTooltipButton>
           ))}

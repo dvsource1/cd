@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from './Tooltip'
 
-interface Props {
+interface Props extends React.ComponentProps<typeof Button> {
   className?: string
   tooltip: string
   children: React.ReactNode
@@ -23,7 +23,7 @@ const SimpleTooltipButton: FC<Props> = ({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="none" size="none" className={className} {...props}>
+          <Button className={className} {...props}>
             {children}
           </Button>
         </TooltipTrigger>
