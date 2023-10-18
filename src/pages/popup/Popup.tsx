@@ -1,8 +1,14 @@
+import Card from '@src/components/Card'
+import Container from '@src/components/Container'
+import WindowContainer from '@src/components/WindowContainer'
+
 const Popup = () => {
   return (
-    <div className="">
-      <h1 className="mx-5 text-3xl font-bold underline">dv/cd</h1>
-    </div>
+    <WindowContainer>
+      <Container>
+        <Card>Popup</Card>
+      </Container>
+    </WindowContainer>
   )
 }
 

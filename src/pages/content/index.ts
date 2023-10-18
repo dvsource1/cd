@@ -1,4 +1,5 @@
-console.log('content loaded')
+// TODO: enable this when we have a better way to handle content scripts
+// console.log('dv/cd content loaded')
 
 /**
  * @description

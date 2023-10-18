@@ -1,10 +1,15 @@
+import Card from '@src/components/Card'
+import Container from '@src/components/Container'
+import ScreenContainer from '@src/components/ScreenContainer'
 import React from 'react'
 
 const Panel: React.FC = () => {
   return (
-    <div className="">
-      <h1 className="mx-5 text-3xl font-bold underline">dv/cd</h1>
-    </div>
+    <ScreenContainer>
+      <Container>
+        <Card>Dev Tool</Card>
+      </Container>
+    </ScreenContainer>
   )
 }
 

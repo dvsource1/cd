@@ -1,6 +1,6 @@
 try {
   chrome.devtools.panels.create(
-    'Dev Tools | Demo',
+    'DV/CD Panel',
     'icon-34.png',
     'src/pages/panel/index.html',
   )

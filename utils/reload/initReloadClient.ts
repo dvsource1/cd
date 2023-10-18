@@ -43,7 +43,7 @@ export default function initReloadClient({
   })
 
   socket.addEventListener('close', () => {
-    console.log('Reload server disconnected.')
+    console.log('DV/CD: Reload server disconnected.')
   })
 
   return socket
