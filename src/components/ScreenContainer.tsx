@@ -7,7 +7,11 @@ interface Props {
 }
 
 const ScreenContainer: FC<Props> = ({ className, children }) => {
-  return <div className={cn('h-screen w-screen', className)}>{children}</div>
+  return (
+    <div className={cn('h-screen w-screen font-mono', className)}>
+      {children}
+    </div>
+  )
 }
 
 export default ScreenContainer
