@@ -8,7 +8,9 @@ const Newtab = () => {
     <ScreenContainer>
       <Container>
         <Grid className="grid-cols-1 grid-rows-4 md:grid-cols-3">
-          <Card className="col-span-2 row-span-3">
+          <Card
+            header={{ title: 'Header 1', actions: ['Action 1', 'Action 2'] }}
+            className="col-span-2 row-span-3">
             <h1 className="text-6xl">New Tab</h1>
           </Card>
           <Card className="col-span-1 row-span-3">
