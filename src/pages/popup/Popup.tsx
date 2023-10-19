@@ -6,7 +6,7 @@ const Popup = () => {
   return (
     <WindowContainer>
       <Container className="p-2">
-        <Card size="sm" color="white">
+        <Card rounded="sm" color="white">
           Popup
         </Card>
       </Container>

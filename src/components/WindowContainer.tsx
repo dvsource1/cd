@@ -7,7 +7,7 @@ interface Props extends VariantProps<typeof windowVariants> {
   children: React.ReactNode
 }
 
-const windowVariants = cva('w-40 h-60 font-mono', {
+const windowVariants = cva('w-40 h-60 font-mono bg-stone-800', {
   variants: {
     variant: {
       default: '',
