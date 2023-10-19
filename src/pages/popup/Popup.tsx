@@ -5,8 +5,10 @@ import WindowContainer from '@src/components/WindowContainer'
 const Popup = () => {
   return (
     <WindowContainer>
-      <Container>
-        <Card>Popup</Card>
+      <Container className="p-2">
+        <Card size="sm" color="white">
+          Popup
+        </Card>
       </Container>
     </WindowContainer>
   )

@@ -7,7 +7,7 @@ const Panel: React.FC = () => {
   return (
     <ScreenContainer>
       <Container>
-        <Card>Dev Tool</Card>
+        <Card color="blue">Dev Tool</Card>
       </Container>
     </ScreenContainer>
   )
