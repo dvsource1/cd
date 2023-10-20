@@ -19,3 +19,6 @@ public/manifest.json
 
 # tailwind.css
 /src/style/tailwind.css
+
+# env
+.env

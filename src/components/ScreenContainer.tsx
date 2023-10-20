@@ -7,7 +7,7 @@ interface Props {
   children: React.ReactNode
 }
 
-const UNSPLASH_API_KEY = 'VySRoJZK45eAWp2CbzrgRlEYaWO1hfS2MwZmMoiaR8g'
+const UNSPLASH_API_KEY = chrome.runtime.getManifest().UNSPLASH_API_KEY
 
 const ScreenContainer: FC<Props> = ({ className, children }) => {
   const [background, setBackground] = useState<string>()
