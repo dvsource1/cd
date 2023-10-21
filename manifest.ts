@@ -48,6 +48,7 @@ const manifest: chrome.runtime.ManifestV3 = {
     },
   ],
   UNSPLASH_API_KEY: process.env.UNSPLASH_API_KEY,
+  NOTION_SECRET_KEY: process.env.NOTION_SECRET_KEY,
 }
 
 export default manifest

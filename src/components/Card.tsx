@@ -27,12 +27,12 @@ const cardVariants = cva('flex h-full w-full flex-col border shadow-md', {
       none: 'rounded-none',
     },
     color: {
-      stone: 'border-stone-400 shadow-stone-800 bg-stone-200/50',
-      white: 'border-white shadow-white-800 bg-white/50',
-      red: 'border-red-400 shadow-red-800 bg-red-200/50',
-      yellow: 'border-orange-400 shadow-orange-800 bg-orange-200/50',
-      green: 'border-green-400 shadow-green-800 bg-green-200/50',
-      blue: 'border-blue-400 shadow-blue-800 bg-blue-200/50',
+      stone: 'border-stone-400 shadow-stone-800 bg-stone-200/70',
+      white: 'border-white shadow-white-800 bg-white/70',
+      red: 'border-red-400 shadow-red-800 bg-red-200/70',
+      yellow: 'border-orange-400 shadow-orange-800 bg-orange-200/70',
+      green: 'border-green-400 shadow-green-800 bg-green-200/70',
+      blue: 'border-blue-400 shadow-blue-800 bg-blue-200/70',
     },
     shadow: {
       none: 'shadow-none',
@@ -67,6 +67,7 @@ const cardHeaderVariants = cva(
       },
     },
     defaultVariants: {
+      color: 'stone',
       rounded: 'md',
     },
   },
@@ -98,7 +99,7 @@ const Card: FC<Props> = ({
           </div>
         </div>
       )}
-      <div className="p-2">{children}</div>
+      <div className="overflow-auto p-2">{children}</div>
     </div>
   )
 }

@@ -1,5 +1,3 @@
-// ./Grid.tsx
-
 import React, { FC } from 'react'
 import { cn } from '../lib/utils'
 

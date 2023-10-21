@@ -8,7 +8,7 @@ interface Props {
 
 const Container: FC<Props> = ({ className, children }) => {
   return (
-    <div className={cn('h-full w-full p-4 text-stone-200', className)}>
+    <div className={cn('h-full w-full p-4 text-stone-50', className)}>
       {children}
     </div>
   )
