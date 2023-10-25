@@ -1,68 +1,123 @@
 import React, { FC } from 'react'
 import Widget from '@src/components/Widget'
 import {
+  addBookmarkFolderToDatabase,
   addBookmarkToDatabase,
+  readBookmarkFoldersDatabase,
+  readBookmarkFoldersDatabaseStructure,
   readBookmarksDatabase,
+  readBookmarksDatabaseStructure,
 } from '@src/services/notion/bookmarks'
 import { Button } from '@src/components/Button'
-import { getAllBookmarks } from '@src/functions/bookmark'
-import Json from '@src/components/JSON'
+import Json from '@src/components/Json'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@src/components/Dialog'
+import { isNil } from 'lodash'
 
 const BookmarksWidget: FC = () => {
-  // list all chrome bookmarks
-  const [bookmarks, setBookmarks] = React.useState([])
-  const [folders, setFolders] = React.useState([])
-  const [bookmark, setBookmark] = React.useState({})
-  const [structure, setStructure] = React.useState({})
+  const [bookmarkStruture, setBookmarkStructure] = React.useState({})
+  const [bookmarkFolderStructure, setBookmarkFolderStructure] = React.useState(
+    {},
+  )
+
+  const [newBookmarkFolder, setNewBookmarkFolder] = React.useState<
+    Partial<chrome.bookmarks.BookmarkTreeNode>
+  >({})
 
   React.useEffect(() => {
-    getAllBookmarks()
-      .then(bookmarks => {
-        console.log(bookmarks)
-        setBookmarks(bookmarks)
-      })
-      .catch(err => {
-        console.error(err)
-      })
-  }, [])
-
-  React.useEffect(() => {
-    readBookmarksDatabase().then(response => {
-      console.log(response)
-      setStructure(response.structure)
+    readBookmarksDatabaseStructure().then(structure => {
+      setBookmarkStructure(structure)
+    })
+    readBookmarkFoldersDatabaseStructure().then(structure => {
+      setBookmarkFolderStructure(structure)
     })
   }, [])
 
+  const readBookmarks = async () => {
+    const bookmarksFromDatabase = await readBookmarksDatabase(bookmarkStruture)
+    console.log(bookmarksFromDatabase)
+  }
+
+  const readBookmarkFolders = async () => {
+    const foldersFromDatabase = await readBookmarkFoldersDatabase(
+      bookmarkFolderStructure,
+    )
+    console.log(foldersFromDatabase)
+  }
+
   const addBookmark = async () => {
     const testBookmark = await chrome.bookmarks.get('6')
-    const bookmark = await addBookmarkToDatabase(testBookmark[0], structure)
-    setBookmark(bookmark)
+    const bookmark = await addBookmarkToDatabase(
+      testBookmark[0],
+      bookmarkStruture,
+    )
+    console.log(bookmark)
+  }
+
+  const addBookmarkFolder = async () => {
+    if (isNil(newBookmarkFolder.title)) {
+      return
+    }
+    newBookmarkFolder.parentId = '-1'
+    newBookmarkFolder.index = 0
+    const bookmarkFolder = await addBookmarkFolderToDatabase(
+      newBookmarkFolder as chrome.bookmarks.BookmarkTreeNode,
+      bookmarkFolderStructure,
+    )
+    console.log(bookmarkFolder)
   }
 
   return (
-    <Widget>
+    <Widget className="flex flex-col">
+      {/* <Json className="text-xs" object={bookmarkStruture} /> */}
+      {/* <Json className="text-xs" object={bookmarkFolderStructure} /> */}
+      <Button variant="outline" onClick={readBookmarkFolders}>
+        Read Bookmark Folders
+      </Button>
+      <Button variant="outline" onClick={readBookmarks}>
+        Read Bookmarks
+      </Button>
       <Button variant="outline" onClick={addBookmark}>
         Add Bookmark
       </Button>
-      <Json object={bookmark} />
-      {/* <ul className="list-disc">
-        {folders.map(folder => {
-          return (
-            <li key={folder.id} className={cn('text-sm text-blue-400')}>
-              {folder.title}
-            </li>
-          )
-        })}
-      </ul>
-      <ul className="list-disc">
-        {bookmarks.map(bookmark => {
-          return (
-            <li key={bookmark.id} className={cn('text-sm')}>
-              {bookmark.title}
-            </li>
-          )
-        })}
-      </ul> */}
+      <Dialog>
+        <DialogTrigger>
+          <Button variant="outline">Add Folder</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>New Bookmark Folder</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <label className="col-span-1">Name</label>
+              <input
+                value={newBookmarkFolder.title}
+                onChange={e =>
+                  setNewBookmarkFolder({
+                    ...newBookmarkFolder,
+                    title: e.target.value,
+                  })
+                }
+                type="text"
+                className="col-span-3 rounded-md border border-gray-300 px-3 py-1.5 text-sm"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button type="submit" onClick={addBookmarkFolder}>
+              Save
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Json object={newBookmarkFolder} />
     </Widget>
   )
 }

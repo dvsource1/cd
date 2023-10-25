@@ -12,8 +12,8 @@ export type StringOrNull = string | null
 
 // types
 export interface IDatabase {
-  structure: Record<string, string>
-  records: Record<string, string>[]
+  structure: IStructure
+  records: IRecord[]
 }
 
 export type IStructure = Record<string, [string, StringOrNull]>
@@ -37,25 +37,23 @@ export const readDatabaseData = async (
   return response
 }
 
-export const restructureDatabaseRecords = async (
+export const readDatabaseStructure = async (
   id: string,
-): Promise<IDatabase> => {
-  // get database structure
+): Promise<IStructure> => {
   const database: GetDatabaseResponse = await readDatabase(id)
 
-  // get all data
+  const { properties } = database
+
+  return getDatabaseStructure(properties)
+}
+
+export const restructureDatabaseRecords = async (
+  id: string,
+  structure: IStructure,
+): Promise<IDatabase> => {
   const data: QueryDatabaseResponse = await readDatabaseData(id)
 
-  console.log(database, data)
-
-  const { properties } = database
-  const propertiesKeys: string[] = keys(properties)
-
-  if (isNil(properties)) {
-    return { structure: {}, records: [] }
-  }
-
-  const structure = getDatabaseStructure(properties)
+  const propertiesKeys = keys(structure)
 
   const { results } = data
   if (isNil(results)) {
@@ -91,7 +89,6 @@ export const createDatabaseRecord = async (
     },
     properties,
   })
-  return
   return response
 }
 
