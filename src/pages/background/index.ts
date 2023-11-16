@@ -1,3 +1,4 @@
+import tabListener from '@src/listeners/tab-listener'
 import reloadOnUpdate from 'virtual:reload-on-update-in-background-script'
 
 reloadOnUpdate('pages/background')
@@ -9,3 +10,5 @@ reloadOnUpdate('pages/background')
 reloadOnUpdate('pages/content/style.scss')
 
 console.log('dv/cd is running')
+
+tabListener()
