@@ -1,3 +1,4 @@
+import { warn } from 'console'
 import { basicNotify } from './notifications'
 
 type TabEffect =
@@ -29,13 +30,15 @@ export const handleTabEffect = async (
   try {
     tab = await chrome.tabs.get(tabId)
   } catch (e) {
-    return
+    console.warn('cannot find the tab', tabId)
   }
 
-  try {
-    window = await chrome.windows.get(tab.windowId)
-  } catch (e) {
-    return
+  if (tab) {
+    try {
+      window = await chrome.windows.get(tab.windowId)
+    } catch (e) {
+      console.warn('cannot find the window', tab.windowId)
+    }
   }
 
   console.log(effect, { tab, window }, { info, old })
@@ -55,15 +58,22 @@ export const handleTabEffect = async (
     case 'CREATED':
       break
     case 'REMOVED':
+      cleanTabAgeStore(tabId)
       break
     case 'UPDATED:LOADING':
       // move tab to right window, group, position
       break
     case 'UPDATED:COMPLETE':
       // handle duplicate tab
-      handleDuplicateTabs(tab)
+      await updateTabAgeStore(tab)
+      await handleDuplicateTabs(tab)
+      await archiveInnactiveTabs(tab)
       break
   }
+
+  // log storage session
+  const storage = await chrome.storage.session.get()
+  console.log('storage', storage)
 }
 
 const handleDuplicateTabs = async (tab: chrome.tabs.Tab) => {
@@ -85,4 +95,55 @@ const handleDuplicateTabs = async (tab: chrome.tabs.Tab) => {
       `Removed ${previousTabs.length} duplicate tabs`,
     )
   }
+}
+
+const updateTabAgeStore = async (tab: chrome.tabs.Tab) => {
+  const now = Date.now()
+  const host = new URL(tab.url).host
+  const key = `tab:${tab.id}:age`
+  const ageRecord = await chrome.storage.session.get(key)
+  let created = now
+  if (ageRecord[key]) {
+    const { created: oldCreated } = ageRecord[key]
+    created = oldCreated
+  }
+
+  if (isHostIgnored(host)) {
+    return
+  }
+  await chrome.storage.session.set({
+    [key]: {
+      host,
+      created,
+      lastActive: now,
+    },
+  })
+}
+
+const cleanTabAgeStore = async (tabId: number) => {
+  await chrome.storage.session.remove([`tab:${tabId}:age`])
+}
+
+/**
+ * purpose: to prevent too many tabs in one window
+ * @param tab created tab or attached tab
+ */
+const archiveInnactiveTabs = async (tab: chrome.tabs.Tab) => {
+  const allWindows = await chrome.windows.getAll()
+  const window = await chrome.windows.get(tab.windowId)
+
+  // get all tabs in all windows
+  const allTabs = await chrome.tabs.query({})
+
+  // get all tabs in current window
+  const currentTabs = allTabs.filter(t => t.windowId === tab.windowId)
+
+  // get all tabs in all windows except current window
+  const otherTabs = allTabs.filter(t => t.windowId !== tab.windowId)
+
+  console.log({ allTabs, currentTabs, otherTabs })
+}
+
+const isHostIgnored = (host: string) => {
+  return !host.includes('.')
 }
