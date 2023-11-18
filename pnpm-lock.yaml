@@ -161,8 +161,8 @@ devDependencies:
     specifier: 3.1.3
     version: 3.1.3(sass@1.55.0)
   vite-plugin-run:
-    specifier: ^0.4.1
-    version: 0.4.1
+    specifier: ^0.5.1
+    version: 0.5.1
   ws:
     specifier: 8.13.0
     version: 8.13.0
@@ -4626,8 +4626,8 @@ packages:
     dependencies:
       brace-expansion: 1.1.11
 
-  /minimatch@8.0.4:
-    resolution: {integrity: sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==}
+  /minimatch@9.0.3:
+    resolution: {integrity: sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==}
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       brace-expansion: 2.0.1
@@ -6096,12 +6096,13 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite-plugin-run@0.4.1:
-    resolution: {integrity: sha512-gzHW2Bybme2jvxfjmeOOPk2j5FI3VGPzPL30pRCpyJkWGqu5fmyBOKBKYe+f44BlFkAeeHg79Zx97IfL6WvXUA==}
+  /vite-plugin-run@0.5.1:
+    resolution: {integrity: sha512-KSEWlsEDRHYHkGBwJRktqWjZ3xZ04i1B5vXO9pOPQufJnXPj7mFX7NicUa5WhOG98x/+yS+Koz4W/x0/CJwwWQ==}
     dependencies:
       '@antfu/utils': 0.7.6
       debug: 4.3.4
-      minimatch: 8.0.4
+      execa: 5.1.1
+      minimatch: 9.0.3
       picocolors: 1.0.0
     transitivePeerDependencies:
       - supports-color
