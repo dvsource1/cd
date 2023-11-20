@@ -1,5 +1,5 @@
-import { warn } from 'console'
 import { basicNotify } from './notifications'
+import arrangeTabs from '@src/actions/tabs/arrange-tabs'
 
 type TabEffect =
   | 'ACTIVATED'
@@ -53,9 +53,11 @@ export const handleTabEffect = async (
     case 'DETACHED':
       break
     case 'MOVED':
+      // await arrangeTabs(tab)
       // check right window, group, position
       break
     case 'CREATED':
+      // await arrangeTabs(tab)
       break
     case 'REMOVED':
       cleanTabAgeStore(tabId)
@@ -68,6 +70,7 @@ export const handleTabEffect = async (
       await updateTabAgeStore(tab)
       await handleDuplicateTabs(tab)
       await archiveInnactiveTabs(tab)
+      // await arrangeTabs(tab)
       break
   }
 
