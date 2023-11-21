@@ -1,5 +1,4 @@
-import { basicNotify } from './notifications'
-import arrangeTabs from '@src/actions/tabs/arrange-tabs'
+import handleDuplicateTabs from '@src/actions/tabs/handle-duplicate-tabs'
 
 type TabEffect =
   | 'ACTIVATED'
@@ -77,27 +76,6 @@ export const handleTabEffect = async (
   // log storage session
   const storage = await chrome.storage.session.get()
   console.log('storage', storage)
-}
-
-const handleDuplicateTabs = async (tab: chrome.tabs.Tab) => {
-  // get all tabs with same url
-  const tabs = await chrome.tabs.query({
-    url: tab.url,
-  })
-
-  // close previous tabs except current tab
-  const previousTabs = tabs.filter(t => t.id !== tab.id)
-  for (const t of previousTabs) {
-    await chrome.tabs.remove(t.id)
-  }
-
-  // notify user about removde duplicate tabs
-  if (previousTabs.length > 0) {
-    await basicNotify(
-      'Duplicate tabs removed',
-      `Removed ${previousTabs.length} duplicate tabs`,
-    )
-  }
 }
 
 const updateTabAgeStore = async (tab: chrome.tabs.Tab) => {

@@ -29,8 +29,13 @@ function About() {
 }
 
 const Popup = () => {
+  const onClick1 = () => {
+    console.log('onClick')
+    window.history.pushState({}, undefined, '/about')
+  }
+
   return (
-    <Router basename="/">
+    <Router>
       <div>
         <Routes>
           <Route path="/about" element={<About />} />
@@ -43,6 +48,11 @@ const Popup = () => {
           </Button>
           <Button className="flex w-12 items-center justify-center bg-slate-600 hover:bg-slate-800 hover:text-slate-200">
             <Link to="/about">About</Link>
+          </Button>
+          <Button
+            onClick={onClick1}
+            className="flex w-12 items-center justify-center bg-slate-600 hover:bg-slate-800 hover:text-slate-200">
+            Click
           </Button>
         </div>
       </div>
